@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/LeaveSample.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/LeaveSample.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="Leave">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Category" type="tns:LeaveCategories" />
+      <xs:element minOccurs="0" name="CorrelationID" type="ser:guid" />
+      <xs:element minOccurs="0" name="DateSubmitted" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Duration" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="Employee" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsCompleted" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LeaveID" type="xs:long" />
+      <xs:element minOccurs="0" name="Remarks" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Status" type="tns:LeaveStatuses" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Leave" nillable="true" type="tns:Leave" />
+  <xs:simpleType name="LeaveCategories">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Annual" />
+      <xs:enumeration value="Medical" />
+      <xs:enumeration value="Study" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LeaveCategories" nillable="true" type="tns:LeaveCategories" />
+  <xs:simpleType name="LeaveStatuses">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Pending" />
+      <xs:enumeration value="Cancelled" />
+      <xs:enumeration value="Approved" />
+      <xs:enumeration value="Rejected" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LeaveStatuses" nillable="true" type="tns:LeaveStatuses" />
+</xs:schema>

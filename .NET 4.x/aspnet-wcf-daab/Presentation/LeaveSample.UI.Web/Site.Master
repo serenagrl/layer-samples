@@ -1,0 +1,34 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="LeaveSample.UI.Web.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Layered Architecture Sample for .NET</title>
+    <link href="Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+      <table style="width:100%">
+        <tr>
+          <td>
+            <span class="title">LEAVE SAMPLE (LAYERED ARCHITECTURE SAMPLE FOR .NET)</span><br />
+          </td>
+          <td style="text-align:right">
+            <p class="pagelink"><a href="Default.aspx">Apply</a> | <a href="Approvals.aspx">Approvals</a></p>
+          </td>
+        </tr>
+      </table>
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+    <footer>
+        Developed by Serena Yeoh - Copyright 2014 - 2020
+        <br />
+        <a href="https://github.com/serenagrl/layer-samples">Layered Architecture Sample</a> | <a href="http://visualstudiogallery.msdn.microsoft.com/caa8f808-d4a5-4f48-a88e-da572834f37e">Layered Architecture Solution Guidance</a> | <a href="http://serena-yeoh.blogspot.com/">Blog</a>
+    </footer>
+</body>
+</html>

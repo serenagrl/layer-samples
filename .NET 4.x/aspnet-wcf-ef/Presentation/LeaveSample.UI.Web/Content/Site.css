@@ -1,0 +1,106 @@
+﻿html {
+    background-color: #e2e2e2;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    text-align:center;
+}
+
+table { 
+    border-collapse:separate; 
+    padding: 5px; 
+}
+
+.grid { 
+    border-collapse:collapse; 
+    border:1px solid #C0C0C0;
+    width:100%;
+}
+
+.grid th
+{
+    padding:5px;    
+    border:1px solid #C0C0C0;
+    background-color:#e2e2e2;
+}
+
+.grid-pager
+{
+    border:1px solid #C0C0C0;
+    padding:5px;
+    background-color:#e2e2e2;
+}
+
+.grid td
+{
+    padding:5px;    
+    border:1px solid #C0C0C0;
+}
+
+.grid-alt-row
+{
+    background-color: #fff;
+}
+
+.accordion {
+    margin:10px;
+}
+
+fieldset {
+    border: 1px solid #C0C0C0;
+    margin:10px;
+}
+
+.pagelink {
+    margin:10px;
+    text-align:right;
+}
+
+.title {
+    font-size:x-large;
+    font-weight: bold;
+    margin:10px;
+    color:darkgrey;
+}
+
+.header {
+    font-size:larger;
+    font-weight: bold;
+    color: cornflowerblue;
+}
+
+.topAlignedLabel {
+    vertical-align: top;
+    padding-top:3px;
+}
+
+.textBox {
+    border: 1px solid #C0C0C0;
+    height:22px
+}
+
+.multilineTextBox {
+    border: 1px solid #C0C0C0;
+    font-size: small;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    width: 328px;
+    height:40px;
+}
+
+.spinner {
+    border: 1px solid #C0C0C0;
+    width: 40px;
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+}

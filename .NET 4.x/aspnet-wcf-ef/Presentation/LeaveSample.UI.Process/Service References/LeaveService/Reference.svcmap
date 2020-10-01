@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="82cf4427-3146-4f8c-a26d-0760c763c26e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:13619/LeaveService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="LeaveService.disco" MetadataType="Disco" ID="5c4fc6eb-b927-41c9-a8aa-5c293c4c69f0" SourceId="1" SourceUrl="http://localhost:13619/LeaveService.svc?disco" />
+    <MetadataFile FileName="LeaveService.wsdl" MetadataType="Wsdl" ID="9c980752-49b7-47d0-a198-81afd1fa9236" SourceId="1" SourceUrl="http://localhost:13619/LeaveService.svc?wsdl" />
+    <MetadataFile FileName="LeaveService.xsd" MetadataType="Schema" ID="382aabc3-857b-4a40-afaf-edb9bf60075c" SourceId="1" SourceUrl="http://localhost:13619/LeaveService.svc?xsd=xsd2" />
+    <MetadataFile FileName="LeaveService1.xsd" MetadataType="Schema" ID="849d968d-d76f-4d1f-b3b2-5d78f8262858" SourceId="1" SourceUrl="http://localhost:13619/LeaveService.svc?xsd=xsd1" />
+    <MetadataFile FileName="LeaveService2.xsd" MetadataType="Schema" ID="198aa40c-3803-47d7-842d-21e4e4790c1e" SourceId="1" SourceUrl="http://localhost:13619/LeaveService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

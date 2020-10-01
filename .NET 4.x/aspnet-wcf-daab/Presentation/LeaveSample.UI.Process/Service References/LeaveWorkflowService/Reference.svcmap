@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="77da765e-1620-49f3-836c-cd3b3830bff0" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:13619/LeaveWorkflowService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="LeaveWorkflowService.disco" MetadataType="Disco" ID="e1424782-c29a-495d-8ec0-683d7f6d464a" SourceId="1" SourceUrl="http://localhost:13619/LeaveWorkflowService.svc?disco" />
+    <MetadataFile FileName="LeaveWorkflowService.xsd" MetadataType="Schema" ID="6ad12fb7-deba-4048-a81c-428a5c569b31" SourceId="1" SourceUrl="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd1" />
+    <MetadataFile FileName="LeaveWorkflowService.wsdl" MetadataType="Wsdl" ID="0a14e44a-5e19-4c97-943f-aaada1035857" SourceId="1" SourceUrl="http://localhost:13619/LeaveWorkflowService.svc?wsdl" />
+    <MetadataFile FileName="LeaveWorkflowService1.xsd" MetadataType="Schema" ID="48293b1d-3f7c-4aa7-ab16-edfed04c39a6" SourceId="1" SourceUrl="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd2" />
+    <MetadataFile FileName="LeaveWorkflowService2.xsd" MetadataType="Schema" ID="9c2fc04b-f5fa-4c13-91df-6968d4399812" SourceId="1" SourceUrl="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

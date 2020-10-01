@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LeaveDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="LeaveDataModelStoreContainer">
+          <EntitySet Name="Leaves" EntityType="LeaveDataModel.Store.Leaves" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LeaveStatusLogs" EntityType="LeaveDataModel.Store.LeaveStatusLogs" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="Leaves">
+          <Key>
+            <PropertyRef Name="LeaveID" />
+          </Key>
+          <Property Name="LeaveID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CorrelationID" Type="uniqueidentifier" />
+          <Property Name="Category" Type="tinyint" />
+          <Property Name="Employee" Type="varchar" MaxLength="50" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Duration" Type="tinyint" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="IsCompleted" Type="bit" />
+          <Property Name="Remarks" Type="varchar" MaxLength="255" />
+          <Property Name="DateSubmitted" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LeaveStatusLogs">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LeaveID" Type="bigint" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LeaveDataModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LeaveSampleEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Leaves" EntityType="LeaveDataModel.Leave" />
+          <EntitySet Name="LeaveStatusLogs" EntityType="LeaveDataModel.LeaveStatusLog" />
+        </EntityContainer>
+        <EntityType Name="Leave">
+          <Key>
+            <PropertyRef Name="LeaveID" />
+          </Key>
+          <Property Name="LeaveID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CorrelationID" Type="Guid" />
+          <Property Name="Category" Type="LeaveDataModel.LeaveCategories" />
+          <Property Name="Employee" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="Duration" Type="Byte" />
+          <Property Name="Status" Type="LeaveDataModel.LeaveStatuses" />
+          <Property Name="IsCompleted" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="DateSubmitted" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LeaveStatusLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="LeaveID" Type="Int64" />
+          <Property Name="Status" Type="LeaveDataModel.LeaveStatuses" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EnumType Name="LeaveCategories" UnderlyingType="Byte" a:ExternalTypeName="LeaveSample.Entities.LeaveCategories" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="LeaveStatuses" UnderlyingType="Byte" a:ExternalTypeName="LeaveSample.Entities.LeaveStatuses" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LeaveDataModelStoreContainer" CdmEntityContainer="LeaveSampleEntities">
+          <EntitySetMapping Name="Leaves">
+            <EntityTypeMapping TypeName="LeaveDataModel.Leave">
+              <MappingFragment StoreEntitySet="Leaves">
+                <ScalarProperty Name="LeaveID" ColumnName="LeaveID" />
+                <ScalarProperty Name="CorrelationID" ColumnName="CorrelationID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Employee" ColumnName="Employee" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="DateSubmitted" ColumnName="DateSubmitted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveStatusLogs">
+            <EntityTypeMapping TypeName="LeaveDataModel.LeaveStatusLog">
+              <MappingFragment StoreEntitySet="LeaveStatusLogs">
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="LeaveID" ColumnName="LeaveID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

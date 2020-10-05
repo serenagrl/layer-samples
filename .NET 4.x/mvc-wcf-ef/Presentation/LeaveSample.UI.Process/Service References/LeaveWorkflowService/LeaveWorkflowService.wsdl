@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="LeaveWorkflowService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:13619/LeaveWorkflowService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/LeaveSample.Entities" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILeaveWorkflowService_Apply_InputMessage">
+    <wsdl:part name="parameters" element="tns:Apply" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Apply_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ApplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Cancel_InputMessage">
+    <wsdl:part name="parameters" element="tns:Cancel" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Cancel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Approve_InputMessage">
+    <wsdl:part name="parameters" element="tns:Approve" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Approve_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ApproveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Reject_InputMessage">
+    <wsdl:part name="parameters" element="tns:Reject" />
+  </wsdl:message>
+  <wsdl:message name="ILeaveWorkflowService_Reject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RejectResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ILeaveWorkflowService">
+    <wsdl:operation name="Apply">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeaveWorkflowService/Apply" message="tns:ILeaveWorkflowService_Apply_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeaveWorkflowService/ApplyResponse" message="tns:ILeaveWorkflowService_Apply_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Cancel">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeaveWorkflowService/Cancel" message="tns:ILeaveWorkflowService_Cancel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeaveWorkflowService/CancelResponse" message="tns:ILeaveWorkflowService_Cancel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Approve">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeaveWorkflowService/Approve" message="tns:ILeaveWorkflowService_Approve_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeaveWorkflowService/ApproveResponse" message="tns:ILeaveWorkflowService_Approve_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Reject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILeaveWorkflowService/Reject" message="tns:ILeaveWorkflowService_Reject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILeaveWorkflowService/RejectResponse" message="tns:ILeaveWorkflowService_Reject_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="basicHttpWorkflowService" type="tns:ILeaveWorkflowService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Apply">
+      <soap:operation soapAction="http://tempuri.org/ILeaveWorkflowService/Apply" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Cancel">
+      <soap:operation soapAction="http://tempuri.org/ILeaveWorkflowService/Cancel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Approve">
+      <soap:operation soapAction="http://tempuri.org/ILeaveWorkflowService/Approve" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reject">
+      <soap:operation soapAction="http://tempuri.org/ILeaveWorkflowService/Reject" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LeaveWorkflowService">
+    <wsdl:port name="basicHttpWorkflowService" binding="tns:basicHttpWorkflowService">
+      <soap:address location="http://localhost:13619/LeaveWorkflowService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

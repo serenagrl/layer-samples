@@ -1,0 +1,323 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="LeaveSample.Workflows.LeaveWorkflowService" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="LeaveSample.Workflows.LeaveWorkflowService_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:le="clr-namespace:LeaveSample.Entities;assembly=LeaveSample.Entities"
+ xmlns:lwa="clr-namespace:LeaveSample.Workflows.Activities;assembly=LeaveSample.Workflows.Activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:p="http://schemas.microsoft.com/netfx/2009/xaml/servicemodel"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:ssx="clr-namespace:System.ServiceModel.XamlIntegration;assembly=System.ServiceModel"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>LeaveSample.Business</AssemblyReference>
+      <AssemblyReference>LeaveSample.Entities</AssemblyReference>
+      <AssemblyReference>LeaveSample.Workflows.Activities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>LeaveSample.Workflows</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="p:CorrelationHandle" x:Name="__ReferenceID0" Name="_handle" />
+      <Variable x:TypeArguments="le:Leave" x:Name="__ReferenceID1" Name="_leave" />
+      <Variable x:TypeArguments="le:Leave" Name="_applyResult" />
+    </Flowchart.Variables>
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID6" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+        <Sequence DisplayName="Apply" sap2010:WorkflowViewState.IdRef="Sequence_1">
+          <p:Receive x:Name="__ReferenceID2" Action="http://tempuri.org/ILeaveWorkflowService/Apply" CanCreateInstance="True" DisplayName="Apply Receive" sap2010:WorkflowViewState.IdRef="Receive_1" OperationName="Apply" ProtectionLevel="None" ServiceContractName="ILeaveWorkflowService">
+            <p:Receive.CorrelatesOn>
+              <p:XPathMessageQuery x:Key="key1">
+                <p:XPathMessageQuery.Namespaces>
+                  <ssx:XPathMessageContextMarkup>
+                    <x:String x:Key="xg0">http://schemas.datacontract.org/2004/07/LeaveSample.Entities</x:String>
+                    <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                  </ssx:XPathMessageContextMarkup>
+                </p:XPathMessageQuery.Namespaces>sm:body()/xgSc:Apply/xgSc:leave/xg0:CorrelationID</p:XPathMessageQuery>
+            </p:Receive.CorrelatesOn>
+            <p:Receive.CorrelationInitializers>
+              <p:RequestReplyCorrelationInitializer>
+                <p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                  <InArgument x:TypeArguments="p:CorrelationHandle">
+                    <VariableValue x:TypeArguments="p:CorrelationHandle" Variable="{x:Reference __ReferenceID0}" />
+                  </InArgument>
+                </p:RequestReplyCorrelationInitializer.CorrelationHandle>
+              </p:RequestReplyCorrelationInitializer>
+            </p:Receive.CorrelationInitializers>
+            <p:ReceiveParametersContent>
+              <OutArgument x:TypeArguments="le:Leave" x:Key="leave">
+                <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+              </OutArgument>
+            </p:ReceiveParametersContent>
+          </p:Receive>
+          <lwa:Apply DisplayName="Apply" sap2010:WorkflowViewState.IdRef="Apply_1">
+            <lwa:Apply.Leave>
+              <InOutArgument x:TypeArguments="le:Leave">
+                <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+              </InOutArgument>
+            </lwa:Apply.Leave>
+          </lwa:Apply>
+          <p:SendReply Request="{x:Reference __ReferenceID2}" Action="http://tempuri.org/ILeaveWorkflowService/ApplyResponse" DisplayName="Apply Reply" sap2010:WorkflowViewState.IdRef="SendReply_1" PersistBeforeSend="True">
+            <p:SendParametersContent>
+              <InArgument x:TypeArguments="le:Leave" x:Key="ApplyResponseResult">
+                <mca:CSharpValue x:TypeArguments="le:Leave">_leave</mca:CSharpValue>
+              </InArgument>
+            </p:SendParametersContent>
+          </p:SendReply>
+        </Sequence>
+        <FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+            <Pick sap2010:WorkflowViewState.IdRef="Pick_1">
+              <PickBranch DisplayName="Cancel Leave" sap2010:WorkflowViewState.IdRef="PickBranch_1">
+                <PickBranch.Trigger>
+                  <Sequence DisplayName="Cancel" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                    <p:Receive x:Name="__ReferenceID3" Action="http://tempuri.org/ILeaveWorkflowService/Cancel" DisplayName="Cancel Receive" sap2010:WorkflowViewState.IdRef="Receive_5" OperationName="Cancel" ProtectionLevel="None" ServiceContractName="ILeaveWorkflowService">
+                      <p:Receive.CorrelatesOn>
+                        <p:XPathMessageQuery x:Key="key1">
+                          <p:XPathMessageQuery.Namespaces>
+                            <ssx:XPathMessageContextMarkup>
+                              <x:String x:Key="xg0">http://schemas.datacontract.org/2004/07/LeaveSample.Entities</x:String>
+                              <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                            </ssx:XPathMessageContextMarkup>
+                          </p:XPathMessageQuery.Namespaces>sm:body()/xgSc:Cancel/xgSc:leave/xg0:CorrelationID</p:XPathMessageQuery>
+                      </p:Receive.CorrelatesOn>
+                      <p:Receive.CorrelationInitializers>
+                        <p:RequestReplyCorrelationInitializer>
+                          <p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                            <InArgument x:TypeArguments="p:CorrelationHandle">
+                              <VariableValue x:TypeArguments="p:CorrelationHandle" Variable="{x:Reference __ReferenceID0}" />
+                            </InArgument>
+                          </p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                        </p:RequestReplyCorrelationInitializer>
+                      </p:Receive.CorrelationInitializers>
+                      <p:ReceiveParametersContent>
+                        <OutArgument x:TypeArguments="le:Leave" x:Key="leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </OutArgument>
+                      </p:ReceiveParametersContent>
+                    </p:Receive>
+                    <lwa:Cancel DisplayName="Cancel" sap2010:WorkflowViewState.IdRef="Cancel_2">
+                      <lwa:Cancel.Leave>
+                        <InOutArgument x:TypeArguments="le:Leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </InOutArgument>
+                      </lwa:Cancel.Leave>
+                    </lwa:Cancel>
+                    <p:SendReply Request="{x:Reference __ReferenceID3}" Action="http://tempuri.org/ILeaveWorkflowService/CancelResponse" DisplayName="Cancel Reply" sap2010:WorkflowViewState.IdRef="SendReply_5" PersistBeforeSend="True">
+                      <p:SendParametersContent>
+                        <InArgument x:TypeArguments="le:Leave" x:Key="CancelResponseResult">
+                          <mca:CSharpValue x:TypeArguments="le:Leave">_leave</mca:CSharpValue>
+                        </InArgument>
+                      </p:SendParametersContent>
+                    </p:SendReply>
+                  </Sequence>
+                </PickBranch.Trigger>
+              </PickBranch>
+              <PickBranch DisplayName="Approve Leave" sap2010:WorkflowViewState.IdRef="PickBranch_2">
+                <PickBranch.Trigger>
+                  <Sequence DisplayName="Approve" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                    <p:Receive x:Name="__ReferenceID4" Action="http://tempuri.org/ILeaveWorkflowService/Approve" DisplayName="Approve Receive" sap2010:WorkflowViewState.IdRef="Receive_6" OperationName="Approve" ProtectionLevel="None" ServiceContractName="ILeaveWorkflowService">
+                      <p:Receive.CorrelatesOn>
+                        <p:XPathMessageQuery x:Key="key1">
+                          <p:XPathMessageQuery.Namespaces>
+                            <ssx:XPathMessageContextMarkup>
+                              <x:String x:Key="xg0">http://schemas.datacontract.org/2004/07/LeaveSample.Entities</x:String>
+                              <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                            </ssx:XPathMessageContextMarkup>
+                          </p:XPathMessageQuery.Namespaces>sm:body()/xgSc:Approve/xgSc:leave/xg0:CorrelationID</p:XPathMessageQuery>
+                      </p:Receive.CorrelatesOn>
+                      <p:Receive.CorrelationInitializers>
+                        <p:RequestReplyCorrelationInitializer>
+                          <p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                            <InArgument x:TypeArguments="p:CorrelationHandle">
+                              <VariableValue x:TypeArguments="p:CorrelationHandle" Variable="{x:Reference __ReferenceID0}" />
+                            </InArgument>
+                          </p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                        </p:RequestReplyCorrelationInitializer>
+                      </p:Receive.CorrelationInitializers>
+                      <p:ReceiveParametersContent>
+                        <OutArgument x:TypeArguments="le:Leave" x:Key="leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </OutArgument>
+                      </p:ReceiveParametersContent>
+                    </p:Receive>
+                    <lwa:Approve DisplayName="Approve" sap2010:WorkflowViewState.IdRef="Approve_2">
+                      <lwa:Approve.Leave>
+                        <InOutArgument x:TypeArguments="le:Leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </InOutArgument>
+                      </lwa:Approve.Leave>
+                    </lwa:Approve>
+                    <p:SendReply Request="{x:Reference __ReferenceID4}" Action="http://tempuri.org/ILeaveWorkflowService/ApproveResponse" DisplayName="Approve Reply" sap2010:WorkflowViewState.IdRef="SendReply_6" PersistBeforeSend="True">
+                      <p:SendParametersContent>
+                        <InArgument x:TypeArguments="le:Leave" x:Key="ApproveResponseResult">
+                          <VariableValue x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </InArgument>
+                      </p:SendParametersContent>
+                    </p:SendReply>
+                  </Sequence>
+                </PickBranch.Trigger>
+              </PickBranch>
+              <PickBranch DisplayName="Reject Leave" sap2010:WorkflowViewState.IdRef="PickBranch_3">
+                <PickBranch.Trigger>
+                  <Sequence DisplayName="Reject" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                    <p:Receive x:Name="__ReferenceID5" Action="http://tempuri.org/ILeaveWorkflowService/Reject" DisplayName="Reject Receive" sap2010:WorkflowViewState.IdRef="Receive_7" OperationName="Reject" ProtectionLevel="None" ServiceContractName="ILeaveWorkflowService">
+                      <p:Receive.CorrelatesOn>
+                        <p:XPathMessageQuery x:Key="key1">
+                          <p:XPathMessageQuery.Namespaces>
+                            <ssx:XPathMessageContextMarkup>
+                              <x:String x:Key="xg0">http://schemas.datacontract.org/2004/07/LeaveSample.Entities</x:String>
+                              <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                            </ssx:XPathMessageContextMarkup>
+                          </p:XPathMessageQuery.Namespaces>sm:body()/xgSc:Reject/xgSc:leave/xg0:CorrelationID</p:XPathMessageQuery>
+                      </p:Receive.CorrelatesOn>
+                      <p:Receive.CorrelationInitializers>
+                        <p:RequestReplyCorrelationInitializer>
+                          <p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                            <InArgument x:TypeArguments="p:CorrelationHandle">
+                              <VariableValue x:TypeArguments="p:CorrelationHandle" Variable="{x:Reference __ReferenceID0}" />
+                            </InArgument>
+                          </p:RequestReplyCorrelationInitializer.CorrelationHandle>
+                        </p:RequestReplyCorrelationInitializer>
+                      </p:Receive.CorrelationInitializers>
+                      <p:ReceiveParametersContent>
+                        <OutArgument x:TypeArguments="le:Leave" x:Key="leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </OutArgument>
+                      </p:ReceiveParametersContent>
+                    </p:Receive>
+                    <lwa:Reject DisplayName="Reject" sap2010:WorkflowViewState.IdRef="Reject_2">
+                      <lwa:Reject.Leave>
+                        <InOutArgument x:TypeArguments="le:Leave">
+                          <VariableReference x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </InOutArgument>
+                      </lwa:Reject.Leave>
+                    </lwa:Reject>
+                    <p:SendReply Request="{x:Reference __ReferenceID5}" Action="http://tempuri.org/ILeaveWorkflowService/RejectResponse" DisplayName="Reject Reply" sap2010:WorkflowViewState.IdRef="SendReply_7" PersistBeforeSend="True">
+                      <p:SendParametersContent>
+                        <InArgument x:TypeArguments="le:Leave" x:Key="RejectResponseResult">
+                          <VariableValue x:TypeArguments="le:Leave" Variable="{x:Reference __ReferenceID1}" />
+                        </InArgument>
+                      </p:SendParametersContent>
+                    </p:SendReply>
+                  </Sequence>
+                </PickBranch.Trigger>
+              </PickBranch>
+            </Pick>
+          </FlowStep>
+        </FlowStep.Next>
+      </FlowStep>
+    </Flowchart.StartNode>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID7</x:Reference>
+    <sads:DebugSymbol.Symbol>d2NEOlxEYXRhXExheWVyU2FtcGxlXExlYXZlU2FtcGxlXE1WQy1XQ0YtRUZcQnVzaW5lc3NcTGVhdmVTYW1wbGUuV29ya2Zsb3dzXExlYXZlV29ya2Zsb3dTZXJ2aWNlLnhhbWwlLQPwAQ8CAQE1CV0UAgEnYA3oARQCAQI2C04XAgExTwtVFwIBL1YLXBkCAShhD40BHAIBGY4BD7oBHAIBDrsBD+cBHAIBA0sRS2kCATNEFUR0AgEyUhFSaQIBMFkRWVUCASljE4sBHgIBGpABE7gBHgIBD70BE+UBHgIBBGQVfCECASR9FYMBIgIBIoQBFYoBIwIBG5EBFakBIQIBFqoBFbABIwIBFLEBFbcBIwIBEL4BFdYBIQIBC9cBFd0BIgIBCd4BFeQBIwIBBXkbeXMCASZyH3J+AgElgAEbgAFzAgEjhwEbhwFfAgEepgEbpgFzAgEYnwEfnwF+AgEXrQEbrQFzAgEVtAEbtAFvAgER0wEb0wFzAgENzAEfzAF+AgEM2gEb2gFzAgEK4QEb4QFvAgEG</sads:DebugSymbol.Symbol>
+  </Flowchart>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Receive_1" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Apply_1" sap:VirtualizedContainerService.HintSize="255,62" />
+      <sap2010:ViewStateData Id="SendReply_1" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="277,446">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Receive_5" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Cancel_2" sap:VirtualizedContainerService.HintSize="255,62" />
+      <sap2010:ViewStateData Id="SendReply_5" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="277,446">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="PickBranch_1" sap:VirtualizedContainerService.HintSize="307,704" />
+      <sap2010:ViewStateData Id="Receive_6" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Approve_2" sap:VirtualizedContainerService.HintSize="255,62" />
+      <sap2010:ViewStateData Id="SendReply_6" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="277,446">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="PickBranch_2" sap:VirtualizedContainerService.HintSize="307,704" />
+      <sap2010:ViewStateData Id="Receive_7" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Reject_2" sap:VirtualizedContainerService.HintSize="255,62" />
+      <sap2010:ViewStateData Id="SendReply_7" sap:VirtualizedContainerService.HintSize="255,90" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="277,446">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="PickBranch_3" sap:VirtualizedContainerService.HintSize="307,704" />
+      <sap2010:ViewStateData Id="Pick_1" sap:VirtualizedContainerService.HintSize="200,51">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,214.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_2">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,114.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,165.5 300,214.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,114.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LeaveSample.Workflows.LeaveWorkflowService_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

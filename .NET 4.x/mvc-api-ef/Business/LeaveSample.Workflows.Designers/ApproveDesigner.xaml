@@ -1,0 +1,42 @@
+<sap:ActivityDesigner x:Class="LeaveSample.Workflows.Designers.ApproveDesigner"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:sap="clr-namespace:System.Activities.Presentation;assembly=System.Activities.Presentation"
+    xmlns:sapv="clr-namespace:System.Activities.Presentation.View;assembly=System.Activities.Presentation"
+    xmlns:sapc="clr-namespace:System.Activities.Presentation.Converters;assembly=System.Activities.Presentation">
+    <sap:ActivityDesigner.Resources>
+        <ResourceDictionary x:Uid="ResourceDictionary_1">
+            <sapc:ArgumentToExpressionConverter x:Key="ArgumentToExpressionConverter" />
+        </ResourceDictionary>
+    </sap:ActivityDesigner.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+		 <RowDefinition />
+		
+        </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+					Margin="10,5,10,5"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Right">Leave</TextBlock>
+
+            <sapv:ExpressionTextBox 
+				Name="leaveEntry"
+                Expression="{Binding Path=ModelItem.Leave, Mode=TwoWay, Converter={StaticResource ArgumentToExpressionConverter}, ConverterParameter=InOut}" 
+				OwnerActivity="{Binding Path=ModelItem}"
+				Loaded="leaveEntry_Loaded"
+                Grid.Column="1" Grid.Row="0"
+                MinLines="1" MaxLines="1" MinWidth="50"
+				VerticalAlignment="Center"
+                HintText="&lt;Leave&gt;"/>
+				
+    </Grid>
+</sap:ActivityDesigner>
+

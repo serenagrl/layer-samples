@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Layered Architecture Sample for .NET</title>
+  <script src="~/Scripts/jquery-3.5.1.min.js"></script>
+  <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+  <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+  <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+  <div>
+    <span class="title">LEAVE SAMPLE (LAYERED ARCHITECTURE SAMPLE FOR .NET)</span><br />
+    <p class="pagelink">
+      @Html.ActionLink("Apply", "Index") | @Html.ActionLink("Approvals", "Approvals", "Home", new { status=0 }, null)
+    </p>
+    @RenderBody()
+  </div>
+  <footer>
+    Developed by Serena Yeoh - Copyright 2014 - 2020
+      <br />
+    <a href="https://github.com/serenagrl/layer-samples">Layered Architecture Sample</a> | <a href="http://visualstudiogallery.msdn.microsoft.com/caa8f808-d4a5-4f48-a88e-da572834f37e">Layered Architecture Solution Guidance</a> | <a href="http://serena-yeoh.blogspot.com/">Blog</a>
+  </footer>
+  
+</body>
+</html>

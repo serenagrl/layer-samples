@@ -1,0 +1,63 @@
+﻿@using LeaveSample.Entities;
+@model List<Leave>
+
+@{
+  var grid = new WebGrid();
+  grid.Bind(Model, rowCount: (int)ViewBag.TotalRowCount, autoSortAndPage: false);
+
+  grid.SortColumn = string.IsNullOrWhiteSpace(Request.QueryString["sort"]) ? "DateSubmitted" : Request.QueryString["sort"];
+  grid.SortDirection = Request.QueryString["sortDir"] == "DESC" ? SortDirection.Descending : SortDirection.Ascending;
+}
+
+  <fieldset>
+    <legend class="header">Leave Records</legend>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get)) { 
+    <table>
+        <tr>
+            <td style="width:75px"><strong>Category</strong></td>
+            <td><strong>:</strong></td>
+            <td style="width:100px">
+                @Html.DropDownList("categoryFilter", @ViewBag.CategoryList as List<SelectListItem>,
+                                new { Style = "width:100%" })
+            </td>
+            <td style="width:40px"></td>
+            <td style="width:75px"><strong>Status</strong></td>
+            <td><strong>:</strong></td>
+            <td style="width:100px">
+                @Html.DropDownList("statusFilter", @ViewBag.StatusList as List<SelectListItem>,
+                                new { Style = "width:100%" })
+            </td>
+            <td style="width: 70px"></td>
+            <td>
+                <input type="submit" value="Refresh" />
+            </td>
+        </tr>
+    </table>
+    }
+    @using (Html.BeginForm("LeaveForm", "Home", FormMethod.Post, new { @id = "gridForm" }))
+    { 
+      @grid.GetHtml(tableStyle: "grid", alternatingRowStyle: "grid-alt-row",
+
+      columns: grid.Columns(
+        grid.Column("Action", "Action", @<text>
+          @if (@item.Status == LeaveStatuses.Pending)
+          {
+          <a href="javascript:;" class="cancel-leave">Cancel</a>
+          }
+        <input id="LeaveID" type="hidden" value="@item.LeaveID" />
+        <input id="CorrelationID" type="hidden" value="@item.CorrelationID" />
+        </text>, "center-text", false),
+
+        grid.Column("Category", style: "center-text Category"),
+        grid.Column("StartDate", "Start Date", x => string.Format("{0:d}", x.StartDate), "center-text StartDate"),
+        grid.Column("EndDate", "End Date", x => string.Format("{0:d}", x.EndDate), "center-text EndDate"),
+        grid.Column("Duration", style: "center-text Duration"),
+        grid.Column("Status", style: "center-text Status"),
+        grid.Column("DateSubmitted", "Date Submitted", style: "center-text DateSubmitted"),
+        grid.Column("Description", style: "Description", canSort: false),
+        grid.Column("Remarks", style: "Remarks", canSort: false)
+      
+        ) 
+      )
+    }
+  </fieldset>

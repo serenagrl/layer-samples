@@ -1,0 +1,189 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="LeaveSample.UI.Windows.MainView"
+        xmlns:swi="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vm="clr-namespace:LeaveSample.UI.Windows.ViewModels"
+        xmlns:cvrt="clr-namespace:LeaveSample.UI.Windows.Converters"
+        xmlns:b="clr-namespace:LeaveSample.UI.Windows.Behaviors"
+        Title="Leave Sample (Layered Architecture Sample for .NET)" Height="600" Width="900"
+        Background="LightGray">
+    <Window.Resources>
+        <vm:ApplyLeaveViewModel x:Key="LeaveViewModel" />
+        <vm:LeaveApprovalViewModel x:Key="ApprovalViewModel" />
+        <cvrt:ValueToCategoryConverter x:Key="CategoryConverter"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl Margin="7,10,6,10">
+            <TabItem Header="Apply" DataContext="{Binding Source={StaticResource LeaveViewModel}}" IsSelected="{Binding IsActivating, Mode=TwoWay}">
+                <Grid>
+                    <GroupBox Header="New Leave Details" Margin="10,5,10,0" VerticalAlignment="Top" Height="183" BorderBrush="CornflowerBlue">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Employee:" VerticalContentAlignment="Center"/>
+                            <Label x:Name="employee" Margin="3" Grid.Column="1" Grid.Row="0" Content="{Binding Leave.Employee}" VerticalContentAlignment="Center" />
+                            <Label Grid.Column="4" Grid.Row="0" Content="Date:" VerticalContentAlignment="Center"/>
+                            <StackPanel Grid.ColumnSpan="2" Grid.Column="5" Grid.Row="0" Margin="3" Orientation="Horizontal">
+                                <DatePicker x:Name="startDate"  SelectedDate="{Binding Leave.StartDate}" IsTodayHighlighted="True">
+                                    <swi:Interaction.Triggers>
+                                        <swi:EventTrigger EventName="SelectedDateChanged">
+                                            <swi:InvokeCommandAction Command="{Binding OnDateChangedCommand}" />
+                                        </swi:EventTrigger>
+                                    </swi:Interaction.Triggers>
+                                </DatePicker>
+                                <Label Content="to"/>
+                                <DatePicker x:Name="endDate" SelectedDate="{Binding Leave.EndDate}" IsTodayHighlighted="True">
+                                    <swi:Interaction.Triggers>
+                                        <swi:EventTrigger EventName="SelectedDateChanged">
+                                            <swi:InvokeCommandAction Command="{Binding OnDateChangedCommand}"/>
+                                        </swi:EventTrigger>
+                                    </swi:Interaction.Triggers>
+                                </DatePicker>
+                            </StackPanel>
+
+                            <Label Grid.Column="0" Grid.Row="1" Content="Category:" VerticalContentAlignment="Center"/>
+                            <ComboBox x:Name="categories" Grid.Column="1" Grid.Row="1" Margin="3" SelectedValue="{Binding Leave.Category, Converter={StaticResource CategoryConverter}}" ItemsSource="{Binding InputCategories}" VerticalContentAlignment="Center" />
+                            <Label Grid.Column="4" Grid.Row="1" Content="Duration:" VerticalContentAlignment="Center" />
+                            <xctk:IntegerUpDown x:Name="duration" Grid.Column="5" Grid.Row="1" Margin="3" Width="50" Value="{Binding Leave.Duration}" Minimum="1" Maximum="{Binding MaximumDuration}"  HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+                            
+                            <Label Grid.Column="0" Grid.Row="2" Content="Description:" />
+                            <TextBox x:Name="description" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="3" Text="{Binding Leave.Description}" TextWrapping="Wrap" />
+
+                            <Button x:Name="apply" Grid.Column="1" Grid.Row="4" Margin="3" Command="{Binding ApplyCommand}" Content="_Apply" HorizontalAlignment="Left" Width="75" />
+                        </Grid>
+                            
+                    </GroupBox>
+                    <GroupBox Header="Leave Records" Margin="10,193,10,10" BorderBrush="CornflowerBlue">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="30" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Category:" />
+                            <ComboBox x:Name="categoryFilter" Grid.Column="1" Grid.Row="0" Margin="3" ItemsSource="{Binding Categories}" SelectedItem="{Binding CategoryFilter}">
+                                <swi:Interaction.Triggers>
+                                    <swi:EventTrigger EventName="SelectionChanged">
+                                        <swi:InvokeCommandAction Command="{Binding FilterCommand}"/>
+                                    </swi:EventTrigger>
+                                </swi:Interaction.Triggers>
+                            </ComboBox>
+                            <Label Grid.Column="4" Grid.Row="0" Content="Status:" />
+                            <ComboBox x:Name="statusFilter" Grid.Column="5" Grid.Row="0" Margin="3" ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusFilter}">
+                                <swi:Interaction.Triggers>
+                                    <swi:EventTrigger EventName="SelectionChanged">
+                                        <swi:InvokeCommandAction Command="{Binding FilterCommand}"/>
+                                    </swi:EventTrigger>
+                                </swi:Interaction.Triggers>
+                            </ComboBox>
+                            <Button x:Name="reload" Content="Re_load" Grid.Column="6" Grid.Row="0" Margin="3" Width="75" Command="{Binding ReloadCommand}" HorizontalAlignment="Right"/>
+
+                            <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Margin="3" ItemsSource="{Binding Leaves, Mode=TwoWay}" 
+                                      AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding SelectedLeave}"
+                                      HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" >
+                                <swi:Interaction.Behaviors>
+                                    <b:DataGridSortColumnBehavior SortColumn="{Binding SortExpression, Mode=TwoWay}" />
+                                </swi:Interaction.Behaviors>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
+                                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" />
+                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                                    <DataGridTextColumn Header="Date Submitted" Binding="{Binding DateSubmitted}" />
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                                    <DataGridTextColumn Header="Remarks" Binding="{Binding Remarks}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Content="Can_cel" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" Margin="3" IsEnabled="{Binding CanProcess}" Command="{Binding CancelCommand}" HorizontalAlignment="Left" Width="75" VerticalAlignment="Center"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Approvals" DataContext="{Binding Source={StaticResource ApprovalViewModel}}" IsSelected="{Binding IsActivating, Mode=TwoWay}">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Category:" />
+                    <ComboBox x:Name="apCategoryFilter" Grid.Column="1" Grid.Row="0" Margin="3" ItemsSource="{Binding Categories}" SelectedItem="{Binding CategoryFilter}">
+                        <swi:Interaction.Triggers>
+                            <swi:EventTrigger EventName="SelectionChanged">
+                                <swi:InvokeCommandAction Command="{Binding FilterCommand}"/>
+                            </swi:EventTrigger>
+                        </swi:Interaction.Triggers>
+                    </ComboBox>
+                    <Label Grid.Column="4" Grid.Row="0" Content="Status:" />
+                    <ComboBox x:Name="apStatusFilter" Grid.Column="5" Grid.Row="0" Margin="3" ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusFilter}">
+                        <swi:Interaction.Triggers>
+                            <swi:EventTrigger EventName="SelectionChanged">
+                                <swi:InvokeCommandAction Command="{Binding FilterCommand}"/>
+                            </swi:EventTrigger>
+                        </swi:Interaction.Triggers>
+                    </ComboBox>
+                    <Button x:Name="apReload" Content="Re_load" Grid.Column="6" Grid.Row="0" Margin="3" Width="75" Command="{Binding ReloadCommand}" HorizontalAlignment="Right"/>
+
+                    <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Margin="3" ItemsSource="{Binding Leaves, Mode=TwoWay}" SelectedItem="{Binding SelectedLeave}"
+                                      AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" 
+                                      HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" >
+                        <swi:Interaction.Behaviors>
+                            <b:DataGridSortColumnBehavior SortColumn="{Binding SortExpression, Mode=TwoWay}" />
+                        </swi:Interaction.Behaviors>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Date Submitted" Binding="{Binding DateSubmitted}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Remarks" Binding="{Binding Remarks}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7" Orientation="Horizontal">
+                        <Button x:Name="Approve" Content="_Approve" Grid.Column="6" Grid.Row="0" Margin="3" IsEnabled="{Binding CanProcess}" Command="{Binding ApproveCommand}" Width="75" HorizontalAlignment="Left"/>
+                        <Button x:Name="Reject" Content="_Reject" Grid.Column="6" Grid.Row="0" Margin="3" IsEnabled="{Binding CanProcess}" Command="{Binding RejectCommand}" Width="75" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

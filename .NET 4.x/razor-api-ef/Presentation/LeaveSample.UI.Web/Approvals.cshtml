@@ -1,0 +1,175 @@
+﻿@using LeaveSample.Entities;
+@using LeaveSample.UI.Process;
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+
+    var upc = new LeaveController();
+    
+    if (IsPost)
+    {
+        // Approve or Reject.
+        if (!Request.Form["_Action"].IsEmpty())
+        {
+            var action = Request.Form["_Action"];
+            
+            var leave = new Leave()
+            {
+                LeaveID = Convert.ToInt64(Request.Form["_LeaveID"]),
+                CorrelationID = Guid.Parse(Request.Form["_CorrelationID"]),
+                StartDate = Request.Form["_StartDate"].AsDateTime(),
+                EndDate = Request.Form["_EndDate"].AsDateTime(),
+                Duration = Convert.ToByte(Request.Form["_Duration"]),
+                Remarks = Request.Form["_Remarks"]
+            };
+            
+            switch(action)
+            {
+                case "Approve": upc.Approve(leave); break;
+                case "Reject": upc.Reject(leave); break;
+                default: break;
+            }
+        }
+    }
+    
+    var grid = new WebGrid();
+
+    int rowCount = 0;
+
+    string sort = Request.QueryString["sort"].IsEmpty() ? "DateSubmitted" : Request.QueryString["sort"];
+    string sortDir = Request.QueryString["sortDir"].IsEmpty() ? "DESC" : Request.QueryString["sortDir"];
+    string categoryValue = Request.QueryString["category"];
+    string statusValue = Request.QueryString["status"];
+
+    int pageNo = Request.QueryString["page"].AsInt();
+    int startRowIndex = pageNo > 0 ? (pageNo - 1) * 10 : 0;
+
+    LeaveCategories? category = null;
+    if (!string.IsNullOrWhiteSpace(categoryValue) && categoryValue != "- All -")
+    {
+        category = Enum.Parse(typeof(LeaveCategories), categoryValue) as LeaveCategories?;
+    }
+
+    LeaveStatuses? status = null;
+    if (!string.IsNullOrWhiteSpace(statusValue) && statusValue != "- All -")
+    {
+        status = Enum.Parse(typeof(LeaveStatuses), statusValue) as LeaveStatuses?;
+    }
+
+    var leaves = upc.ListLeavesByEmployee(10, startRowIndex, string.Format("{0} {1}", sort, sortDir),
+        null, category, status, out rowCount);
+
+    grid.Bind(leaves, autoSortAndPage: false, rowCount: rowCount);
+
+    grid.SortColumn = sort;
+    grid.SortDirection = sortDir == "DESC" ? SortDirection.Descending : SortDirection.Ascending;
+}
+<script>
+    $(function () {
+        $('.edit-mode').hide();
+
+        $('.edit-row, .cancel-edit').on('click', function () {
+
+            var tr = $(this).closest('tr');
+            tr.find('.edit-mode, .view-mode').toggle();
+
+            var command = $(this).text();
+
+            if (command == 'Cancel') {
+                var remarks = tr.find("#remarksLabel").text();
+                tr.find("#remarks").val(remarks);
+            }
+        });
+
+        $('.approve-leave, .reject-leave').on('click', function () {
+
+            var tr = $(this).closest('tr');
+            tr.find('.edit-mode, .view-mode').toggle();
+
+            var action = $(this).text();
+
+            var form = document.forms['gridForm'];
+
+            postForm(form, {
+                _Action: action,
+                _LeaveID: tr.find('#LeaveID').val(),
+                _CorrelationID: tr.find('#CorrelationID').val(),
+                _StartDate: tr.find('.StartDate').text(),
+                _EndDate: tr.find('.EndDate').text(),
+                _Duration: tr.find('.Duration').text(),
+                _Remarks: tr.find("#remarks").val()
+            })
+        });
+    });
+
+    function postForm(form, params) {
+
+        for (var key in params) {
+            var hidden = document.createElement("input");
+            hidden.type = "hidden";
+            hidden.name = key;
+            hidden.value = params[key];
+
+            form.appendChild(hidden);
+        }
+
+        form.submit();
+    }
+
+</script>
+<fieldset>
+    <legend class="header">Approve Leaves</legend>
+    <br />
+    <form method="get">
+        <table>
+            <tr>
+                <td><strong>Category</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @PageHelpers.GetDropDownList("category", categoryValue, typeof(LeaveCategories))
+                </td>
+                <td></td>
+                <td><strong>Status</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @PageHelpers.GetDropDownList("status", statusValue, typeof(LeaveStatuses))
+                </td>
+                <td><strong></strong></td>
+                <td>
+                    <input type="submit" value="Refresh" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form name="gridForm" method="post">
+        <div id="leavesGrid">
+
+            @grid.GetHtml(tableStyle: "grid", alternatingRowStyle: "grid-alt-row",
+                columns: grid.Columns(
+                    grid.Column("Action", "Action", @<text>
+                    @if (@item.Status == LeaveStatuses.Pending)
+                    {
+                        <a href="javascript:;" class="edit-row view-mode">Select</a>
+                    }
+                    <a href="javascript:;" class="approve-leave edit-mode">Approve</a>
+                    <a href="javascript:;" class="reject-leave edit-mode">Reject</a>
+                    <a href="javascript:;" class="cancel-edit edit-mode">Cancel</a>
+                    <input id="LeaveID" type="hidden" value="@item.LeaveID" />
+                    <input id="CorrelationID" type="hidden" value="@item.CorrelationID" />
+                    </text>, "center-text", false),
+                    grid.Column("Employee", style: "center-text Employee"),
+                    grid.Column("Category", style: "center-text Category"),
+                    grid.Column("StartDate", "Start Date", x => string.Format("{0:d}", x.StartDate), "center-text StartDate"),
+                    grid.Column("EndDate", "End Date", x => string.Format("{0:d}", x.EndDate), "center-text EndDate"),
+                    grid.Column("Duration", style: "center-text Duration"),
+                    grid.Column("Status", style: "center-text Status"),
+                    grid.Column("DateSubmitted", "Date Submitted", style: "center-text DateSubmitted"),
+                    grid.Column("Description", style: "Description", canSort: false),
+                    grid.Column("Remarks", format: @<text><span class="view-mode"><label id="remarksLabel">@item.Remarks</label></span>
+                    <textarea id="remarks" class="edit-mode multilineTextBox" style="width: 100%">@item.Remarks</textarea></text>, canSort: false)
+                )
+
+            )
+        </div>
+    </form>
+</fieldset>

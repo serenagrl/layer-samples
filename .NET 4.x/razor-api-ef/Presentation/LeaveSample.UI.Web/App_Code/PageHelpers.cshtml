@@ -1,0 +1,11 @@
+﻿@helper GetDropDownList(string name, string selected, Type type) {
+    List<SelectListItem> list = Enum.GetNames(type)
+        .Select(v => new SelectListItem() 
+        { 
+            Text = v, 
+            Value = v, 
+            Selected = (v==selected) 
+        } ).ToList();
+        
+    @Html.DropDownList(name, "- All -", list, new { Style = "width:100%" });
+}

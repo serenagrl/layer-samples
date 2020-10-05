@@ -1,0 +1,164 @@
+﻿@using LeaveSample.Entities
+@using LeaveSample.UI.Process
+@{
+    Layout = "~/Shared/_Layout.cshtml";
+
+    string[] categories = Enum.GetNames(typeof(LeaveCategories));
+
+    string categoryValue = Request.Form["categoryRadio"];
+
+    DateTime startDate = DateTime.Now;
+    DateTime endDate = DateTime.Now;
+    LeaveCategories category = LeaveCategories.Annual;
+
+    if (!string.IsNullOrWhiteSpace(categoryValue))
+    {
+        category = (LeaveCategories)Enum.Parse(typeof(LeaveCategories), categoryValue);
+    }
+
+    if (IsPost && Request.Form["_Action"].IsEmpty())
+    {
+        Validation.RequireField("categoryRadio", "Please select a category.");
+        Validation.RequireField("StartDate", "Please enter a start date.");
+        Validation.RequireField("EndDate", "Please enter an end date.");
+        Validation.RequireField("Duration", "Please enter a duration.");
+
+        startDate = Request.Form["StartDate"].AsDateTime();
+        endDate = Request.Form["EndDate"].AsDateTime();
+
+        if (startDate > endDate)
+        {
+            Validation.AddFormError("Start date cannot be greater than end date.");
+        }
+
+        byte duration = Convert.ToByte(Request.Form["Duration"]);
+        if (duration <= 0)
+        {
+            Validation.AddFormError("Duration cannot be less than or equal to 0.");
+        }
+
+        if (Validation.IsValid())
+        {
+            var leave = new Leave()
+            {
+                Employee = Environment.UserName,
+                Category = category,
+                StartDate = startDate,
+                EndDate = endDate,
+                Duration = duration,
+                Description = Request.Form["Description"]
+            };
+
+            try 
+            { 
+                var upc = new LeaveController();
+                upc.Apply(leave);
+            }
+            catch(ApplicationException ex)
+            {
+                Validation.AddFormError(ex.Message);
+            }
+        }
+    }
+}
+
+<script>
+    $(function () {
+        attachPicker('#StartDate');
+        attachPicker('#EndDate');
+        attachSpinner('#Duration');
+
+        $('.cancel-leave').on('click', function () {
+            $(this).hide();
+        });
+    });
+
+    function attachPicker(controlId) {
+        $(controlId).datepicker(
+        {
+            defaultDate: null,
+            minDate: -7,
+            maxDate: '6M',
+            beforeShowDay: $.datepicker.noWeekends,
+            onSelect: showDays,
+            dateFormat: "dd/mm/yy"
+        });
+    }
+
+    function attachSpinner(controlId) {
+        $(controlId).spinner({ min: 1, max: 30 });
+    }
+
+    function showDays(date, sender) {
+        var start = $('#StartDate').datepicker('getDate');
+        var end = $('#EndDate').datepicker('getDate');
+
+        if (!start || !end)
+            return;
+
+        var days = (new Date(end - start) / 1000 / 60 / 60 / 24) + 1;
+
+        if (days < 0) days = 0;
+
+        $('#Duration').val(days);
+    }
+</script>
+<form method="post">
+    <fieldset>
+        <legend class="header">New Leave Details</legend>
+        @Html.ValidationSummary()
+        <table>
+            <tr>
+                <td style="width:75px"><strong>Employee</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @Html.Label(Environment.UserName, "Employee")
+                </td>
+                <td style="width: 200px"></td>
+                <td><strong>Date</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @Html.TextBox("StartDate", startDate.ToShortDateString(), new { @Class = "textBox" })
+                    to
+                    @Html.TextBox("EndDate", endDate.ToShortDateString(), new { @Class = "textBox" })
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Category</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @for (int i = 0; i < categories.Length; i++)
+                    {
+                        string value = categories[i];
+                        @Html.RadioButton("categoryRadio", value, value == category.ToString(),
+                            new { id = "Category" + i.ToString() });
+                        @Html.Label(value, "Category" + i.ToString());
+                        @Html.Raw("&nbsp;&nbsp;");
+                    }
+                </td>
+                <td></td>
+                <td><strong>Duration</strong></td>
+                <td><strong>:</strong></td>
+                <td>
+                    @Html.TextBox("Duration", 1, new { @Class = "spinner" })
+                </td>
+            </tr>
+            <tr>
+                <td class="topAlignedLabel"><strong>Description</strong></td>
+                <td class="topAlignedLabel"><strong>:</strong></td>
+                <td colspan="5">
+                    @Html.TextArea("Description", new { @Class = "multilineTextBox" })
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td colspan="5">
+                    <a href="javascript:document.forms[0].submit();" class="apply-leave">Apply</a>
+                </td>
+            </tr>
+        </table>
+
+    </fieldset>
+</form>
+@RenderPage("~/_Leaves.cshtml")

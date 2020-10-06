@@ -1,0 +1,76 @@
+﻿@model LeaveSample.Entities.Leave
+
+@{
+    ViewBag.Title = "Apply Leave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Apply Leave</title>
+    <script src="~/Scripts/index-view.js"></script>
+</head>
+
+<body>
+    @using (Html.BeginForm())
+    {
+        <fieldset>
+            <legend class="header">New Leave Details</legend>
+            @Html.ValidationSummary()
+            <table>
+                <tr>
+                    <td style="width:75px"><strong>Employee</strong></td>
+                    <td><strong>:</strong></td>
+                    <td>
+                        @Html.ValueFor(x => x.Employee)
+                        @Html.HiddenFor(x => x.Employee)
+                    </td>
+                    <td style="width: 200px"></td>
+                    <td><strong>Date</strong></td>
+                    <td><strong>:</strong></td>
+                    <td>
+                        @Html.TextBoxFor(x => x.StartDate, "{0:d}", new { @Class = "textBox" })
+                        to
+                        @Html.TextBoxFor(x => x.EndDate, "{0:d}", new { @Class = "textBox" })
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Category</strong></td>
+                    <td><strong>:</strong></td>
+                    <td>
+                        @for (int i = 0; i < ViewBag.Categories.Length; i++)
+                        {
+                            string value = ViewBag.Categories[i];
+                            @Html.RadioButtonFor(x => x.Category, value, new { id = "Category" + i.ToString() });
+                            @Html.Label(value, new { @for = "Category" + i.ToString() });
+                            @Html.Raw("&nbsp;&nbsp;");
+                        }
+                    </td>
+                    <td></td>
+                    <td><strong>Duration</strong></td>
+                    <td><strong>:</strong></td>
+                    <td>
+                        @Html.TextBoxFor(x => x.Duration, new { @Class = "spinner" })
+                    </td>
+                </tr>
+                <tr>
+                    <td class="topAlignedLabel"><strong>Description</strong></td>
+                    <td class="topAlignedLabel"><strong>:</strong></td>
+                    <td colspan="5">
+                        @Html.TextAreaFor(x => x.Description, new { @Class = "multilineTextBox" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td colspan="5">
+                        <a href="javascript:document.forms[0].submit();" class="apply-leave">Apply</a>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    }
+    @{Html.RenderAction("Leaves");}
+</body>
+</html>

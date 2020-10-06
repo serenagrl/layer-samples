@@ -1,0 +1,31 @@
+﻿.flyout {
+    width: 400px;
+    height: 100px;
+    background-color: #3e3e42;
+    z-index: 110;
+    float:right;
+    position: absolute; 
+    top: 0; 
+    right: 0;
+}
+
+#effect {
+    color: white;
+    height: 135px;
+    padding: 0.4em;
+    margin-left:10px;
+    position: relative;
+}
+
+#effect h3 {
+    color: white;
+    margin: -5px;
+    padding: 0.4em;
+}
+
+#closeNotification {
+    float: right; 
+    cursor: pointer;
+    margin-right:5px;
+
+}
